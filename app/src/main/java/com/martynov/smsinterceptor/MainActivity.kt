@@ -65,7 +65,13 @@ class MainActivity : AppCompatActivity() {
                                 context,
                                 "senderNum: $phoneNumber, message: $message", duration
                             )
-                            smsView.text = message
+                            var regex = "[0-9]{4}".toRegex()
+                            Log.d("MyLogS","message  ${message}")
+                            val result = regex.find(message)
+                            Log.d("MyLogS","result ${result?.value}")
+                            result?.let{
+                                smsView.text = it.value
+                            }
                             toast.show()
                         } // end for loop
                     } // bundle is null
@@ -101,3 +107,4 @@ class MainActivity : AppCompatActivity() {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
 }
+
