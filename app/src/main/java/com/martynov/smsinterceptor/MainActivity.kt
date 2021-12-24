@@ -68,10 +68,12 @@ class MainActivity : AppCompatActivity() {
                             var regex = "[0-9]{4}".toRegex()
                             Log.d("MyLogS","message  ${message}")
                             val result = regex.find(message)
-                            Log.d("MyLogS","result ${result?.value}")
-                            result?.let{
-                                smsView.text = it.value
-                            }
+                           if(result != null){
+                               smsView.text = result.value
+                           }else{
+                               smsView.text = "Нету цифр"
+                           }
+
                             toast.show()
                         } // end for loop
                     } // bundle is null
