@@ -59,24 +59,25 @@ class MainActivity : AppCompatActivity() {
                             Log.i("SmsReceiver", "senderNum: $phoneNumber; message: $message")
 
 
-                            // Show Alert
                             val duration = Toast.LENGTH_LONG
                             val toast = Toast.makeText(
                                 context,
                                 "senderNum: $phoneNumber, message: $message", duration
                             )
-                            var regex = "[0-9]{4}".toRegex()
                             Log.d("MyLogS","message  ${message}")
-                            val result = regex.find(message)
-                           if(result != null){
-                               smsView.text = result.value
-                           }else{
-                               smsView.text = "Нету цифр"
-                           }
+                            if(message.contains("HANDS.RU")){
+                                var regex = "[0-9]{4}".toRegex()
 
+                                val result = regex.find(message)
+                                if(result != null){
+                                    smsView.text = result.value
+                                }else{
+                                    smsView.text = "Нету цифр"
+                                }
+                            }
                             toast.show()
-                        } // end for loop
-                    } // bundle is null
+                        }
+                    }
                 } catch (e: Exception) {
                     Log.e("SmsReceiver", "Exception smsReceiver$e")
                 }
@@ -87,7 +88,7 @@ class MainActivity : AppCompatActivity() {
         registerReceiver(incomingSms, filter);
     }
 
-    fun requestMultiplePermissions() {
+    private fun requestMultiplePermissions() {
         ActivityCompat.requestPermissions(
             this, arrayOf(
                 Manifest.permission.RECEIVE_SMS
@@ -101,7 +102,7 @@ class MainActivity : AppCompatActivity() {
         permissions: Array<out String>,
         grantResults: IntArray
     ) {
-        if (requestCode == PERMISSION_REQUEST_CODE && grantResults.size > 0) {
+        if (requestCode == PERMISSION_REQUEST_CODE && grantResults.isNotEmpty()) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 addSmsInsp()
             }
